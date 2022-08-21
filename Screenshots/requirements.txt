@@ -2,7 +2,7 @@ A public git repository with your project code. [URL01]                         
 
 Build Jobs that failed because of compile errors. [SCREENSHOT01]                                                            (X)
 
-Failed unit tests. [SCREENSHOT02]                                                                                           ()
+Failed unit tests. [SCREENSHOT02]                                                                                           (X)
 
 Failure because of vulnerable packages. [SCREENSHOT03]                                                                      ()
 
