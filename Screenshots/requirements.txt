@@ -4,9 +4,9 @@ Build Jobs that failed because of compile errors. [SCREENSHOT01]                
 
 Failed unit tests. [SCREENSHOT02]                                                                                           (X)
 
-Failure because of vulnerable packages. [SCREENSHOT03]                                                                      ()
+Failure because of vulnerable packages. [SCREENSHOT03]                                                                      (X)
 
-An alert from one of your failed builds. [SCREENSHOT04]                                                                     ()
+An alert from one of your failed builds. [SCREENSHOT04]                                                                     (X)
 
 Console output of appropriate failure for infrastructure creation job (using CloudFormation). [SCREENSHOT05]                ()
 
