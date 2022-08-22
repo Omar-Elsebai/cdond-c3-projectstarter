@@ -129,14 +129,14 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: amazon/aws-cli
+      - image: amazon/aws-cli:latest
     steps:
       - checkout
-      - run:
-          name: install required package
-          command: |
-            yum update
-            yum -y install tar
+      # - run:
+      #     name: install required package
+      #     command: |
+      #       yum update
+      #       yum -y install tar
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -187,7 +187,7 @@ workflows:
       #     requires: [build-backend]
       # - scan-frontend:
       #     requires: [build-frontend]
-      - deploy-infrastructure
+      - deploy-infrastructure #: TODO:readd the colon
           # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           # filters:
           #   branches:
