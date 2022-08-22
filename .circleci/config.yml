@@ -164,10 +164,10 @@ jobs:
             - project/.circleci/ansible/inventory.txt
       
       - destroy-environment:
-        stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+          stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       
       - destroy-environment:
-        stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+          stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
 
 workflows:
   default:
