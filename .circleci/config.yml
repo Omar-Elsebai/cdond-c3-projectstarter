@@ -135,8 +135,8 @@ jobs:
       - run:
           name: install required package
           command: |
-            sudo yum update
-            sudo yum install tar -y
+            yum update
+            yum install tar -y
       - run:
           name: Ensure back-end infrastructure exists
           command: |
