@@ -1,4 +1,4 @@
-A public git repository with your project code. [URL01]                                                                     ()
+A public git repository with your project code. [URL01]                                                                     (X)
 
 Build Jobs that failed because of compile errors. [SCREENSHOT01]                                                            (X)
 
@@ -8,7 +8,7 @@ Failure because of vulnerable packages. [SCREENSHOT03]                          
 
 An alert from one of your failed builds. [SCREENSHOT04]                                                                     (X)
 
-Console output of appropriate failure for infrastructure creation job (using CloudFormation). [SCREENSHOT05]                ()
+Console output of appropriate failure for infrastructure creation job (using CloudFormation). [SCREENSHOT05]                (X)
 
 Console output of a smoke test job that is failing appropriately. [SCREENSHOT06]                                            ()
 

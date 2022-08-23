@@ -1,0 +1,21 @@
+---
+- name: "Upgrade Packages"
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: "Install Dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "Install Pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
