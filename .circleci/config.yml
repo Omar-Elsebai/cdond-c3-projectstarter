@@ -160,7 +160,7 @@ jobs:
               "Name=tag:Name,Values=${CIRCLE_WORKFLOW_ID:0:7}" \
               --query \
               "Reservations[*].Instances[*].[PublicIpAddress]" \
-              --output text >> ./.circleci/ansible/inventory.txt
+              --output text >> .circleci/ansible/inventory.txt
               
       - persist_to_workspace:
           root: ~/
