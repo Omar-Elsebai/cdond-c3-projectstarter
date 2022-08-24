@@ -2,7 +2,7 @@
 - name: "Unarchive artifact to app directory"
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend
+    dest: ~/
 # - name: Prepare app
 #   shell: |
 #     cd ~/backend
