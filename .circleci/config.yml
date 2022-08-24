@@ -3,29 +3,31 @@ version: 2.1
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-    # parameters:
-    #   stackname:
-    #     type: string
+    parameters:
+      workflow_id:
+        type: string 
     steps:
       - run:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
-
+            echo "Destroying environment: << parameters.workflow_id >>"
+            aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+# TODO: Install awscli in configure-infrastructure and deploy-backend
   revert-migrations:
     description: Revert the last migration
-    # parameters:
-    #     workflow_id:
-    #         type: string      
+    parameters:
+        workflow_id:
+            type: string      
     steps:
         - run:
             name: Revert migrations
             when: on_fail
             command: |
               # Example: kvdb.io
-              SUCCESS=$(curl --insecure https://kvdb.io/J38yDTJTQwNFxFxdM9hy9A/migration_${CIRCLE_WORKFLOW_ID:0:7})
+              SUCCESS=$(curl --insecure https://kvdb.io/J38yDTJTQwNFxFxdM9hy9A/migration_<< parameters.workflow_id >>)
               # Logic for reverting the database state
               if (( $SUCCESS == 1 ));
               then
@@ -166,10 +168,8 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy-environment
-      #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-      # - destroy-environment:
-      #     stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   configure-infrastructure:
     docker:
@@ -183,10 +183,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip curl
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            ./aws/install
+            apk add --update ansible tar gzip aws-cli
       - run:
           name: Configure server
           command: |
@@ -194,10 +191,8 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment
-      #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-      # - destroy-environment:
-      #     stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   run-migrations:
     docker:
@@ -227,10 +222,8 @@ jobs:
             then
                 curl https://kvdb.io/J38yDTJTQwNFxFxdM9hy9A/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-      - destroy-environment
-      #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-      # - destroy-environment:
-      #     stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   deploy-frontend:
     docker:
@@ -266,12 +259,10 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - destroy-environment
-      - revert-migrations
-      #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-      # - destroy-environment:
-      #     stackname: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
-
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
   deploy-backend:
     docker:
       - image: python:3.8-alpine
@@ -286,11 +277,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip curl nodejs npm
+            apk add --update ansible tar gzip curl nodejs npm aws-cli
             npm install pm2 --global
       - run:
           name: Deploy backend
           command: |
+            exit 1
             cd backend
             npm i
             npm run build
@@ -305,18 +297,16 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - destroy-environment
-      - revert-migrations
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
   smoke-test:
     docker:
       - image: amazon/aws-cli:latest
     steps:
       - checkout
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       apk add --update curl
       - run:
           name: Backend smoke test.
           command: |
@@ -346,8 +336,10 @@ jobs:
               else
                 exit 1
               fi
-      - destroy-environment
-      - revert-migrations
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
 workflows:
   default:
