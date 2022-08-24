@@ -162,10 +162,12 @@ jobs:
               --query \
               "Reservations[*].Instances[*].[PublicIpAddress]" \
               --output text >> .circleci/ansible/inventory.txt
+            echo "test" > .circleci/ansible/test.txt
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/test.txt
       - destroy-environment
       #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       # - destroy-environment:
@@ -191,6 +193,9 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            cat test.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
       #     stackname: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
@@ -296,10 +301,14 @@ jobs:
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
+      - run:
+          name: Start application
+          command: |
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
+            cat test.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - destroy-environment
+    - destroy-environment
       - revert-migrations
 
 workflows:
