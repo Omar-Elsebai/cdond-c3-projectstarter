@@ -3,7 +3,7 @@
 - name: "configuration play." 
   hosts: web
   user: ubuntu
-  become: true
+  # become: true
   gather_facts: false
   vars:
     - ansible_python_interpreter: /usr/bin/python3
@@ -11,7 +11,7 @@
     - ansible_stdout_callback: yaml
 
   pre_tasks:
-    - name: "wait 600 seconds for target connection to become reachable/usable."
+    - name: "wait for port 22 to be accessible"
       ansible.builtin.wait_for:
         port: 22
         delay: 10
