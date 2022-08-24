@@ -240,6 +240,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
             yum install -y tar gzip nodejs npm python3
             npm install pm2 --global
       - run:
