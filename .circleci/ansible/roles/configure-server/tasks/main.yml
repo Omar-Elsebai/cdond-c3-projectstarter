@@ -1,13 +1,13 @@
 ---
 - name: "Upgrade Packages"
   become: true
-  apk:
+  apt:
     update_cache: yes
     upgrade: yes
 
 - name: "Install Dependencies."
   become: true
-  apk:
+  apt:
     name: nodejs,npm
     state: latest
     update_cache: yes

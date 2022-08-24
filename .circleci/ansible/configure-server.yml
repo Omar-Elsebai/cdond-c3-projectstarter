@@ -19,7 +19,7 @@
         delay: 10
 
     - name: "install python for Ansible."
-      apk:
+      apt:
         name: python3
         state: latest
 
