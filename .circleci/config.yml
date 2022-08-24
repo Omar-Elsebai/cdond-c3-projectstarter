@@ -15,7 +15,6 @@ commands:
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
-# TODO: Install awscli in configure-infrastructure and deploy-backend
   revert-migrations:
     description: Revert the last migration
     parameters:
@@ -282,7 +281,6 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            exit 1
             cd backend
             npm i
             npm run build

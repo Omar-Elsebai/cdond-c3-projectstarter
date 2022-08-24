@@ -10,7 +10,6 @@
   apt:
     name: nodejs,npm
     state: latest
-    update_cache: yes
 
 - name: "Install Pm2"
   become: true

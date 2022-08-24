@@ -10,9 +10,9 @@ An alert from one of your failed builds. [SCREENSHOT04]                         
 
 Console output of appropriate failure for infrastructure creation job (using CloudFormation). [SCREENSHOT05]                (X)
 
-Console output of a smoke test job that is failing appropriately. [SCREENSHOT06]                                            ()
+Console output of a smoke test job that is failing appropriately. [SCREENSHOT06]                                            (X)
 
-Console output of a successful rollback after a failed smoke test. [SCREENSHOT07]                                           ()
+Console output of a successful rollback after a failed smoke test. [SCREENSHOT07]                                           (X)
 
 Console output of successful promotion of new version to production in CloudFront. [SCREENSHOT08]                           ()
 
