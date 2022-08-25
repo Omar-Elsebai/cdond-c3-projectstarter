@@ -361,12 +361,9 @@ jobs:
               --tags project=udapeople
             echo OldWorkflowID: "${OldWorkflowID}"
             echo "${OldWorkflowID}" > util/OldWorkflowID.txt
-            cd util
-            cat OldWorkflowID.txt
-            cd ..
       - save_cache:
           paths: [util]
-          key: old-workflow-id
+          key: old-workflow-id-${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
@@ -382,13 +379,12 @@ jobs:
           command: |
             yum install -y tar gzip
       - restore_cache:
-          keys: [old-workflow-id]
+          keys: [old-workflow-id-${CIRCLE_WORKFLOW_ID:0:7}]
       - run:
           name: Cleanup
           command: |
             cd util
             export OldWorkflowID=$(cat OldWorkflowID.txt)
-            cat OldWorkflowID.txt
             echo OldWorkflowID: "${OldWorkflowID}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
