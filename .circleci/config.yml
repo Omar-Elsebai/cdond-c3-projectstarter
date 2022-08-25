@@ -361,9 +361,7 @@ jobs:
               --tags project=udapeople
             echo OldWorkflowID: "${OldWorkflowID}"
             echo "${OldWorkflowID}" > util/OldWorkflowID.txt
-      - save_cache:
-          paths: [util]
-          key: old-workflow-id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
+            curl https://kvdb.io/J38yDTJTQwNFxFxdM9hy9A/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7}  -d '${OldWorkflowID}'
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
@@ -375,17 +373,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: |
-            yum install -y tar gzip
-      - restore_cache:
-          keys:
-            - old-workflow-id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
-      - run:
           name: Cleanup
           command: |
-            cd util
-            export OldWorkflowID=$(cat OldWorkflowID.txt)
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/J38yDTJTQwNFxFxdM9hy9A/oldworkflowid_${CIRCLE_WORKFLOW_ID:0:7})
             echo OldWorkflowID: "${OldWorkflowID}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
