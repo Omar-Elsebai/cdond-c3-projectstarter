@@ -383,7 +383,9 @@ jobs:
       - run:
           name: Cleanup
           command: |
-            export OldWorkflowID=$(cat util/OldWorkflowID.txt)
+            cd util
+            export OldWorkflowID=$(cat OldWorkflowID.txt)
+            echo OldWorkflowID: "${OldWorkflowID}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
               echo Cloudfront not updated, workflow id has not changed from "${OldWorkflowID}"
