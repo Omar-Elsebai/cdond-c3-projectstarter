@@ -361,6 +361,9 @@ jobs:
               --tags project=udapeople
             echo OldWorkflowID: "${OldWorkflowID}"
             echo "${OldWorkflowID}" > util/OldWorkflowID.txt
+            cd util
+            cat OldWorkflowID.txt
+            cd ..
       - save_cache:
           paths: [util]
           key: old-workflow-id
@@ -385,6 +388,7 @@ jobs:
           command: |
             cd util
             export OldWorkflowID=$(cat OldWorkflowID.txt)
+            cat OldWorkflowID.txt
             echo OldWorkflowID: "${OldWorkflowID}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
