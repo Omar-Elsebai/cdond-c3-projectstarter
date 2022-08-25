@@ -363,7 +363,7 @@ jobs:
             echo "${OldWorkflowID}" > util/OldWorkflowID.txt
       - save_cache:
           paths: [util]
-          key: old-workflow-id-${CIRCLE_WORKFLOW_ID:0:7}
+          key: old-workflow-id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
@@ -379,7 +379,8 @@ jobs:
           command: |
             yum install -y tar gzip
       - restore_cache:
-          keys: [old-workflow-id-${CIRCLE_WORKFLOW_ID:0:7}]
+          keys:
+            - old-workflow-id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
       - run:
           name: Cleanup
           command: |
