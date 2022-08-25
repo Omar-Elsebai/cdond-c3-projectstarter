@@ -20,11 +20,11 @@ Console output of successful cleanup job that removes old S3 bucket and EC2 inst
 
 Evidence that deploy jobs only happen on master branch. [SCREENSHOT10]                                                      ()
 
-Evidence of deployed and functioning front-end application in an S3 bucket [URL02] and in CloudFront. [URL03]               ()
+Evidence of deployed and functioning front-end application in an S3 bucket [URL02] and in CloudFront. [URL03SCREENSHOT]     ()
 
-Evidence of healthy back-end application. [URL04]                                                                           ()
+Evidence of healthy back-end application. [URL04SCREENSHOT]                                                                 ()
 
-Evidence of Prometheus Server. [URL05]                                                                                      ()
+Evidence of Prometheus Server. [URL05SCREENSHOT]                                                                            ()
 
 Evidence that Prometheus is monitoring memory, cpu and disk usage of EC2 instances. [SCREENSHOT11]                          ()
 
